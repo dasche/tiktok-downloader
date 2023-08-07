@@ -1,0 +1,34 @@
+{
+  "name": "tiktok-downloader",
+  "version": "1.0.0",
+  "description": "Download TikTok video & slideshow without watermark.",
+  "main": "index.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siyosu/tiktok-downloader.git"
+  },
+  "author": "siyosu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/siyosu/tiktok-downloader/issues"
+  },
+  "homepage": "https://github.com/siyosu/tiktok-downloader#readme",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "tiktok-no-watermark-api": "^1.0.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
