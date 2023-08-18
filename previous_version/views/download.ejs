@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download <%= result.type %> from @<%= result.owner_username %></title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-poppins">
+    <%-include('partial/header')-%>
+    <main class="py-6">
+        <div class="container max-w-md md:max-w-3xl">
+            <a href="/" class="text-lg text-primary underline">Back</a>
+            <% if (result.type === 'video') { %>
+                <%-include('partial/video', {result})-%>
+            <% } else { %>
+                <%-include('partial/slideshow', {result})-%>
+            <% } %> 
+        </div>
+    </main>
+    <%-include('partial/footer')-%>
+    <script>
+        const download = async (sourceUrl, fileName) => {
+            const response = await fetch(sourceUrl);
+            const blobObject = await response.blob();
+            
+            const href = URL.createObjectURL(blobObject);
+            const anchor = document.createElement("a");
+            anchor.href = href;
+            anchor.download = fileName;
+
+            document.body.appendChild(anchor);
+            anchor.click();
+
+            document.body.removeChild(anchor);
+            window.URL.revokeObjectURL(href);
+        };
+    </script>
+    <% if (result.type === 'video') { %>
+        <script src="js/video.js"></script>
+    <% } else { %>
+        <script src="js/slideshow.js"></script>
+    <% } %>
+</body>
+</html>

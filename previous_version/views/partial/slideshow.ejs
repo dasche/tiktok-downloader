@@ -1,0 +1,52 @@
+<div class="border rounded-md overflow-hidden shadow-sm relative md:static md:flex md:gap-4 md:p-4">
+    <div class="aspect-[9/16] md:w-1/2 relative">
+        <div id="slideshow" class="whitespace-nowrap overflow-x-auto snap-x snap-mandatory cursor-pointer">
+            <% for( let index = 0; index < result.details.images.length; index++ ) { %>
+                <img class="w-full h-full object-contain inline-block snap-center" src="<%= result.details.images[index] %>" alt="@<%= result.owner_username %> Slideshow image">
+            <% } %>
+        </div>
+        <% if (result.details.images.length > 1) { %>
+            <!-- Next and prev image button -->
+            <button id="prev-image" class="hidden text-4xl text-black/50 absolute left-2 top-1/2 -translate-y-1/2 hover:text-primary disabled:cursor-not-allowed disabled:text-slate-300">
+                <i class="bx bxs-chevron-left-circle"></i>
+            </button>
+            <button id="next-image" class="text-4xl text-black/50 absolute right-2 top-1/2 -translate-y-1/2 hover:text-primary disabled:cursor-not-allowed disabled:text-slate-300">
+                <i class="bx bxs-chevron-right-circle"></i>
+            </button>
+        <% } %>
+        <!-- Download image button -->
+        <div class="w-full bg-slate-800/60 backdrop-blur-sm absolute bottom-0 p-4">
+            <button id="download-image" data-filename="<%= result.details.video_id %>.jpg" class="btn w-full text-white bg-primary group">
+                Download image <i class="bx bxs-image" ></i> <span id="current-img">1/<%= result.details.images.length %></span><span class="group-disabled:loader"></span>
+            </button>
+        </div>
+    </div>
+    <div class="w-full p-4 md:w-1/2 md:text-black md:p-0">
+        <div>
+            <h1 class="font-semibold text-lg text-primary">By @<%= result.owner_username %></h1>
+            <p class="truncate"><%= result.details.desc %></p>
+        </div>
+        <div class="flex gap-4 mb-4">
+            <span class="flex items-center gap-1">
+                <i class="bx bx-play text-xl"></i>
+                <%= result.details.total_views %>
+            </span>
+            <span class="flex items-center gap-1">
+                <i class="bx bxs-heart text-xl"></i>
+                <%= result.details.total_likes %>
+            </span>
+            <span class="flex items-center gap-1">
+                <i class="bx bxs-comment text-xl"></i>
+                <%= result.details.total_comment %>
+            </span>
+        </div>
+        <div class="flex flex-col gap-2">
+            <button id="download-audio" data-filename="<%= result.details.video_id %>.mp3" data-src="<%= result.details.audio_url %>" class="btn text-white  bg-slate-500 group">
+                Download audio <i class="bx bxs-music"></i><span class="group-disabled:loader"></span>
+            </button>
+            <button id="download-all-image" data-filename="<%= result.details.video_id %>" class="btn text-slate-400 border-2 border-slate-400 group">
+                Download all images <i class="bx bx-images"></i><span class="group-disabled:loader"></span>
+            </button>
+        </div>
+    </div>
+</div>
