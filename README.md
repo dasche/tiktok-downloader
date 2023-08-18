@@ -1,42 +1,33 @@
 
 # TikTok Downloader
 
-TikTok video and slideshow downloader, I create this project because I love watching TikTok videos. I can stay awake all night just because this one APP.
+Website for downloading TikTok videos and slideshow without watermark.
 
-I'm using Express, EJS, TailwindCSS, and [TikTok No Watermark API](https://github.com/siyosu/TikTok-No-Watermark-API) to get the content data.
-I'm new to Express and TailwindCSS, But I try both of them a few times before. Also, the more I dig deeper into TailwindCSS, the more I realized how little I know about CSS.
+Previously I build this using EJS for the template engine. But after spending 30+ hours watching the Vue3 course, I try to apply what I have learned so far. So I rewrite the front end using Vue. I try to use Vue and Tailwind more, I really like them both.
 
-Overall this is a fun project, now I can just go to my website and paste the video URL to download some TikTok videos.
+The frontend design itself same as the previous one, I add some animation and dark mode to make it looks cooler. To get the TikTok data I'm using [TikTokNoWatermarkApi](https://github.com/siyosu/TikTok-No-Watermark-API). 
+
+For the previous version you can find it [here](./previous_version).
+
+
 ## Tech Stack
 
-**Client:** TailwindCSS
+**Client:** Vue3, TailwindCSS
 
-**Server:** Node, Express, EJS
+**Server:** Node, Express
 
+## Deployment
 
-## Installation
+How to deploy this project on your own with Vercel
 
-Clone the project
+- Fork this project
+- Go to Vercel and add a new project
+- Import the project
+- Nothing to change on the configuration, you can choose the project name as you like
+- Then hit deploy
+## Attribution
 
-```bash
-  git clone https://github.com/siyosu/tiktok-downloader
-```
-
-Go to the project directory
-
-```bash
-  cd tiktok-downloader
-```
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm run start
-```
-    
+ - I create this README with [Readme editor](https://readme.so/)
+ - Icons that I use [Fontawesome](https://fontawesome.com/)
+ - Animation and transition [vueuse/motion](https://github.com/vueuse/motion)
+ - Carousel for the slideshow [vue3-carousel](https://github.com/ismail9k/vue3-carousel)

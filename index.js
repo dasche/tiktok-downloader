@@ -1,56 +1,43 @@
-const express = require('express')
-const flash = require('connect-flash')
-const session = require('express-session')
-require('dotenv/config')
-const TikTokNoWatermak = require('tiktok-no-watermark-api')
-const path = require('path')
+const express = require("express");
+const path = require("path");
+require("dotenv/config");
+const TikTokNoWatermak = require("tiktok-no-watermark-api");
 
-const app = express()
+const app = express();
 
-app.set('view engine' ,'ejs')
-app.set('views', path.join(__dirname, 'views'))
-app.use('/', express.static(path.join(__dirname, 'public')))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "dist")));
 
-app.use(session({
-    secret: process.env.SECRET || 'fried chicken'
-}))
-app.use(flash())
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
-function abbreviateNumber(number) {
-    const SI_SYMBOLS = ["", "k", "m", "b"];
-    if (number < 1000) {
-      return number.toString();
+app.post("/api", async (req, res) => {
+    const shortlink = /https:\/\/(?:vt|vm)\.tiktok\.com\/[A-Za-z0-9_-]+/;
+    const web_url = /https:\/\/www\.tiktok\.com\/@[^/]+\/video\/(\d+)/;
+    const { url } = req.body;
+    const invalid_input = !url || (!shortlink.test(url) && !web_url.test(url));
+    if (invalid_input) {
+        res.status(400).json({ status: "fail", message: "Input data is not valid" });
+    } else {
+        try {
+            console.log("==========");
+            console.log(`New request for: ${url}`);
+            const result = await TikTokNoWatermak(url, true);
+            console.log("Success!");
+            res.json(result);
+        } catch (error) {
+            console.log("Failed!");
+            res.status(400).json(error);
+        }
     }
-    const exp = Math.floor(Math.log10(number) / 3);
-    const abbreviated = (number / Math.pow(1000, exp)).toFixed(1);
-    return abbreviated + SI_SYMBOLS[exp];
-}
+});
 
-app.get('/', (req, res)=>{
-    res.render('index', {message: req.flash('message')})
-})
+app.use("*", (req, res) => {
+    res.redirect("/");
+});
 
-app.get('/download', (req, res)=>{
-    const {url} = req.query
-    if(!url || url.trim().length < 1 || url.length > 250){
-        req.flash('message', 'Video not found!')
-        res.redirect('/')
-    } else{
-        TikTokNoWatermak(url, true)
-        .then(data => {
-            data.result.details.total_views = abbreviateNumber(data.result.details.total_views)
-            data.result.details.total_likes = abbreviateNumber(data.result.details.total_likes)
-            data.result.details.total_comment = abbreviateNumber(data.result.details.total_comment)
-            res.render('download', {result: data.result})
-        })
-        .catch((err)=>{
-            console.log(err)
-            req.flash('message', 'Video not found!')
-            res.redirect('/')
-        })
-    }
-})
+const PORT = process.env.PORT || 5000;
 
-const PORT = process.env.PORT || 5000
-
-app.listen(PORT, ()=> console.log(`Running on port ${PORT}`))
+app.listen(PORT, () => console.log(`Running on port ${PORT}`));
